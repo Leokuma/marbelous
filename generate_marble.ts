@@ -52,7 +52,7 @@ function generateMarble(opts?: MarbleOptions): string {
 	}
 
 	return `
-		<svg viewBox="${center - RADIUS} ${center - RADIUS} ${DIAMETER} ${DIAMETER}">
+		<svg viewBox="${center - RADIUS} ${center - RADIUS} ${DIAMETER} ${DIAMETER}" xmlns="http://www.w3.org/2000/svg">
 			<defs>
 				<mask id="mask">
 					<circle cx="${center}" cy="${center}" r="${RADIUS}" fill="#fff"/>
