@@ -18,10 +18,10 @@ interface Circle {
 	cy: number
 }
 
-function generateMarble(options?: MarbleOptions): string {
-	const virtualCanvasSize = (options?.curveness ? Math.round(CANVAS_SIZE * options.curveness) : CANVAS_SIZE);
+function generateMarble(opts?: MarbleOptions): string {
+	const virtualCanvasSize = (opts?.curveness ? Math.round(CANVAS_SIZE * opts.curveness) : CANVAS_SIZE);
 
-	let nCircles = (options?.circles || 4);
+	let nCircles = (opts?.circles || 4);
 	const circles: Circle[] = [];
 	while (--nCircles)
 		circles.push(randCircle(virtualCanvasSize));
@@ -35,7 +35,7 @@ function generateMarble(options?: MarbleOptions): string {
 			</defs>
 
 			<g mask="url(#mask)">
-				<circle r="${RADIUS}" cx="${CENTER}" cy="${CENTER}" fill="${randColor()}"/>
+				<circle r="${RADIUS}" cx="${CENTER}" cy="${CENTER}" fill="${randColor({opacity: 1})}"/>
 				${circles.map(circle => `<circle r="${circle.r}" cx="${circle.cx}" cy="${circle.cy}" fill="${randColor()}"/>`).join('')}
 			</g>
 		</svg>
@@ -53,12 +53,12 @@ function randCircle(virtualCanvasSize: number): Circle {
 	return {r, cx, cy};
 }
 
-function randColor() {
-	return '#' + randColorComponent() + randColorComponent() + randColorComponent() + randColorComponent();
+function randColor(opts?: {opacity: number}) {
+	return '#' + randColorComponent() + randColorComponent() + randColorComponent() + randColorComponent(opts);
 }
 
-function randColorComponent() {
-	return (Math.round(255 * Math.random())).toString(16).padStart(2, '0');
+function randColorComponent(opts?: {opacity: number}) {
+	return (Math.round(255 * (opts?.opacity ?? Math.random()))).toString(16).padStart(2, '0');
 }
 
 
