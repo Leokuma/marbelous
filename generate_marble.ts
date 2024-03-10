@@ -2,8 +2,8 @@ import {distinct} from 'https://deno.land/std@0.219.0/collections/distinct.ts';
 
 const RADIUS = 500;
 const DIAMETER = RADIUS * 2;
-const CANVAS_SIZE = 5000;
-const CENTER = CANVAS_SIZE / 2;
+const DEFAULT_CANVAS_SIZE = 10000;
+const DEFAULT_CURVENESS = .7;
 
 enum BlendMode {
 	color = 'color',
@@ -26,8 +26,9 @@ enum BlendMode {
 
 interface MarbleOptions {
 	circles?: number
+	/** @todo */
 	colors?: string[]
-	/** Between 0 and 1 */
+	/** Between 0 and 1. Default 0.7 */
 	curveness?: number
 }
 
@@ -38,7 +39,9 @@ interface Circle {
 }
 
 function generateMarble(opts?: MarbleOptions): string {
-	const virtualCanvasSize = (opts?.curveness ? Math.round(CANVAS_SIZE * opts.curveness) : CANVAS_SIZE);
+	const curveness = (1 - (opts?.curveness ?? DEFAULT_CURVENESS) ** 2);
+	const virtualCanvasSize = Math.round(DEFAULT_CANVAS_SIZE * curveness);
+	const center = virtualCanvasSize / 2;
 
 	let nCircles = (opts?.circles || 4);
 	const circles: Circle[] = [];
@@ -49,10 +52,10 @@ function generateMarble(opts?: MarbleOptions): string {
 	}
 
 	return `
-		<svg viewBox="${CENTER - RADIUS} ${CENTER - RADIUS} ${DIAMETER} ${DIAMETER}">
+		<svg viewBox="${center - RADIUS} ${center - RADIUS} ${DIAMETER} ${DIAMETER}">
 			<defs>
 				<mask id="mask">
-					<circle cx="${CENTER}" cy="${CENTER}" r="${RADIUS}" fill="#fff"/>
+					<circle cx="${center}" cy="${center}" r="${RADIUS}" fill="#fff"/>
 				</mask>
 				${distinct(blends).map(mode => `
 					<filter id="blend_${mode}">
@@ -62,7 +65,7 @@ function generateMarble(opts?: MarbleOptions): string {
 			</defs>
 
 			<g mask="url(#mask)">
-				<circle r="${RADIUS}" cx="${CENTER}" cy="${CENTER}" fill="${randColor({opacity: 1})}" filter="url(#blend_${blends[0]})"/>
+				<circle r="${RADIUS}" cx="${center}" cy="${center}" fill="${randColor({opacity: 1})}" filter="url(#blend_${blends[0]})"/>
 				${circles.map((circle, i) => `
 					<circle r="${circle.r}" cx="${circle.cx}" cy="${circle.cy}" fill="${randColor()}" filter="url(#blend_${blends[i + 1]})"/>`).join('')
 				}
@@ -75,8 +78,10 @@ function randCircle(virtualCanvasSize: number): Circle {
 	const cx = Math.round(Math.random() * virtualCanvasSize);
 	const cy = Math.round(Math.random() * virtualCanvasSize);
 
-	const x = Math.abs(CENTER - cx);
-	const y = Math.abs(CENTER - cy);
+	const canvasCenter = (virtualCanvasSize / 2);
+
+	const x = Math.abs(canvasCenter - cx);
+	const y = Math.abs(canvasCenter - cy);
 	const r = Math.max(0, Math.round(Math.sqrt(x ** 2 + y ** 2)) - RADIUS) + Math.round(Math.random() * DIAMETER);
 
 	return {r, cx, cy};
