@@ -9,8 +9,14 @@
 </head>
 <body>
 	<div id="page">
-		<h1>Marbelous</h1>
+		<h1 id="marbelous">Marbelous</h1>
 		<div id="svg-container"></div>
+		<div id="settings">
+			<label for="setting-circles">Circles</label>
+			<input type="number" id="n-circles" min="2" required value="4"/>
+			<label for="setting-circles">Curveness</label>
+			<input type="range" id="curveness" min="1" max="100" value="70"/>
+		</div>
 		<div id="downloads">
 			<button id="download-png">Download PNG</button>
 			<button id="download-svg">Download SVG</button>

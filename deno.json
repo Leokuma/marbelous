@@ -1,0 +1,7 @@
+{
+	"tasks": {
+		"build": "packup build index.html",
+		"serve": "packup serve index.html"
+	},
+	"lock": false
+}

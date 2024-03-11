@@ -1,5 +1,5 @@
 :root {
-	color: #eee;
+	color: #ddd;
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
@@ -11,39 +11,62 @@
 
 body {
 	background-color: #222;
-	padding: 5px;
-	position: relative;
 	height: 100vh;
-}
-
-#page {
-	height: 100%;
-	position: relative;
-	width: 100%;
-	margin: auto;
-}
-
-h1 {
-	padding: .5em;
-}
-
-#svg-container svg {
-	width: 100%;
-	height: calc(100vh - 100px);
-}
-
-#downloads {
-	position: absolute;
-	bottom: 5px;
-	left: 5px;
+	padding: 5px;
 }
 
 button {
 	padding: .5em;
 }
 
-#generate {
+#page {
+	height: 100%;
+	position: relative;
+}
+
+#marbelous {
 	position: absolute;
+}
+
+#svg-container {
+	height: 100%;
+
+	& svg {
+		height: 100%;
+		width: 100%;
+	}
+}
+
+#downloads {
 	bottom: 5px;
+	left: 5px;
+	position: absolute;
+}
+
+#generate {
+	bottom: 5px;
+	position: absolute;
 	right: 5px;
+}
+
+#settings {
+	display: grid;
+	grid-template-columns: 3fr 4fr;
+	position: absolute;
+	right: 0;
+	row-gap: .8rem;
+	top: 10px;
+	width: 200px;
+
+	& #n-circles {
+		width: 50px;
+	}
+
+	& #curveness {
+		width: 100%
+	}
+}
+
+:invalid {
+	outline: solid 2px red;
 }

@@ -4,7 +4,9 @@ import downloadPng from './download_png.ts';
 import generateMarble from './generate_marble.ts';
 
 document.addEventListener('DOMContentLoaded', () => {
-	(document.querySelector('#generate') as HTMLButtonElement).onclick = generateMarbleHtml;
+	(document.querySelector('#generate') as HTMLButtonElement).onclick = () => {
+		generateMarbleHtml();
+	}
 
 	(document.querySelector('#download-png') as HTMLButtonElement).onclick = () => {
 		downloadPng(document.querySelector('#svg-container')!.innerHTML, 'marble_' + +new Date() + '.png');
@@ -24,5 +26,13 @@ addEventListener('load', () => {
 })
 
 function generateMarbleHtml() {
-	document.querySelector('#svg-container')!.innerHTML = generateMarble();
+	const nCircles = document.querySelector('#n-circles') as HTMLInputElement;
+	const curveness = document.querySelector('#curveness') as HTMLInputElement;
+
+	if (nCircles.checkValidity() && curveness.checkValidity()) {
+		document.querySelector('#svg-container')!.innerHTML = generateMarble({circles: +nCircles.value, curveness: +curveness.value / 100});
+	} else {
+		nCircles.reportValidity();
+		curveness.reportValidity();
+	}
 }
