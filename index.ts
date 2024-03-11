@@ -26,7 +26,7 @@ addEventListener('load', () => {
 })
 
 function generateMarbleHtml() {
-	const nCircles = document.querySelector('#n-circles') as HTMLInputElement;
+	const nCircles = document.querySelector('#complexity') as HTMLInputElement;
 	const curveness = document.querySelector('#curveness') as HTMLInputElement;
 
 	if (nCircles.checkValidity() && curveness.checkValidity()) {

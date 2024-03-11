@@ -58,7 +58,7 @@ button {
 	top: 10px;
 	width: 200px;
 
-	& #n-circles {
+	& #complexity {
 		width: 50px;
 	}
 
