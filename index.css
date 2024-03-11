@@ -38,13 +38,13 @@ button {
 }
 
 #downloads {
-	bottom: 5px;
+	bottom: 10px;
 	left: 5px;
 	position: absolute;
 }
 
 #generate {
-	bottom: 5px;
+	bottom: 10px;
 	position: absolute;
 	right: 5px;
 }
