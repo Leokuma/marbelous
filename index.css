@@ -39,21 +39,21 @@ button {
 
 #downloads {
 	bottom: 10px;
-	left: 5px;
-	position: absolute;
+	left: 10px;
+	position: fixed;
 }
 
 #generate {
 	bottom: 10px;
-	position: absolute;
-	right: 5px;
+	position: fixed;
+	right: 10px;
 }
 
 #settings {
 	display: grid;
 	grid-template-columns: 3fr 4fr;
-	position: absolute;
-	right: 0;
+	position: fixed;
+	right: 10px;
 	row-gap: .8rem;
 	top: 10px;
 	width: 200px;
