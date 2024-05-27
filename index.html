@@ -11,12 +11,19 @@
 	<div id="page">
 		<h1 id="marbelous">Marbelous</h1>
 		<div id="svg-container"></div>
-		<div id="settings">
-			<label for="complexity">Complexity</label>
-			<input type="number" id="complexity" min="2" required value="4"/>
-			<label for="curveness">Curveness</label>
-			<input type="range" id="curveness" min="1" max="100" value="70"/>
-		</div>
+		<details id="settings_container">
+			<summary>Settings</summary>
+			<div id="settings_controls">
+				<label for="settings_complexity">Complexity</label>
+				<input type="number" id="settings_complexity" min="2" required value="4"/>
+
+				<label for="settings_curveness">Curveness</label>
+				<input type="range" id="settings_curveness" min="1" max="100" value="70"/>
+
+				<label>Colors <button id="settings_add-color" class="borderless">+</button></label>
+				<div id="settings_colors"/>
+			</div>
+		</details>
 		<div id="downloads">
 			<button id="download-png">Download PNG</button>
 			<button id="download-svg">Download SVG</button>

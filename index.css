@@ -15,20 +15,31 @@ body {
 	padding: 5px;
 }
 
-button {
-	padding: .5em;
+input[type=color] {
+	height: 30px;
+	width: 50px;
 }
 
-#page {
+:invalid {
+	outline: solid 2px red;
+}
+
+.borderless {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+div#page {
 	height: 100%;
 	position: relative;
 }
 
-#marbelous {
+h1#marbelous {
 	position: absolute;
 }
 
-#svg-container {
+div#svg-container {
 	height: 100%;
 
 	& svg {
@@ -37,36 +48,58 @@ button {
 	}
 }
 
-#downloads {
+div#downloads {
 	bottom: 10px;
 	left: 10px;
 	position: fixed;
+
+	& button#download-png, button#download-svg {
+		padding: .5em;
+	}
 }
 
-#generate {
+button#generate {
 	bottom: 10px;
+	padding: .5em;
 	position: fixed;
 	right: 10px;
 }
 
-#settings {
-	display: grid;
-	grid-template-columns: 3fr 4fr;
-	position: fixed;
+details#settings_container {
+	cursor: default;
+	position: absolute;
 	right: 10px;
-	row-gap: .8rem;
-	top: 10px;
+	top: 0;
 	width: 200px;
 
-	& #complexity {
+	summary {
+		margin-bottom: 1rem;
+	}
+
+	& div#settings_controls {
+		display: grid;
+		grid-template-columns: 3fr 4fr;
+		row-gap: .8rem;
+	}
+
+	& input#settings_complexity {
 		width: 50px;
 	}
 
-	& #curveness {
+	& input#settings_curveness {
 		width: 100%
 	}
-}
 
-:invalid {
-	outline: solid 2px red;
+	& button#settings_add-color {
+		color: lightgreen;
+		font-size: 1.3em;
+	}
+
+	& div#settings_colors * {
+		vertical-align: middle;
+
+		& button.remove-color {
+			font-size: .7rem;
+		}
+	}
 }

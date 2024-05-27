@@ -14,10 +14,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	(document.querySelector('#download-svg') as HTMLButtonElement).onclick = () => {
 		const a = document.createElement('a');
-		a.href = 'data:image/svg+xml;base64,' + btoa(document.querySelector('#svg-container')!.innerHTML);
+		a.href = 'data:image/svg+xml;base64,' + btoa(document.querySelector('div#svg-container')!.innerHTML);
 		a.download = 'marble_' + +new Date() + '.svg';
 		a.click();
 		a.remove();
+	};
+
+	(document.querySelector('#settings_controls') as HTMLDivElement).onclick = (ev) => {
+		if (ev.target instanceof HTMLButtonElement && ev.target.classList.contains('remove-color')) {
+			ev.target.closest('div.settings_color')?.remove();
+		}
+	}
+
+	(document.querySelector('#settings_add-color') as HTMLButtonElement).onclick = () => {
+		(document.querySelector('#settings_colors') as HTMLDivElement).insertAdjacentHTML('beforeend',
+			`<div class="settings_color"><input type="color"/> <button class="remove-color borderless">❌</button></div>`
+		);
 	};
 });
 
@@ -26,8 +38,8 @@ addEventListener('load', () => {
 })
 
 function generateMarbleHtml() {
-	const nCircles = document.querySelector('#complexity') as HTMLInputElement;
-	const curveness = document.querySelector('#curveness') as HTMLInputElement;
+	const nCircles = document.querySelector('#settings_complexity') as HTMLInputElement;
+	const curveness = document.querySelector('#settings_curveness') as HTMLInputElement;
 
 	if (nCircles.checkValidity() && curveness.checkValidity()) {
 		document.querySelector('#svg-container')!.innerHTML = generateMarble({circles: +nCircles.value, curveness: +curveness.value / 100});
