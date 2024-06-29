@@ -26,7 +26,7 @@ enum BlendMode {
 
 interface MarbleOptions {
 	circles?: number
-	/** @todo */
+	/** Any CSS color. */
 	colors?: string[]
 	/** Between 0 and 1. Default 0.7 */
 	curveness?: number
@@ -42,13 +42,14 @@ function generateMarble(opts?: MarbleOptions): string {
 	const curveness = (1 - (opts?.curveness ?? DEFAULT_CURVENESS) ** 2);
 	const virtualCanvasSize = Math.round(DEFAULT_CANVAS_SIZE * curveness);
 	const center = virtualCanvasSize / 2;
+	const blendOpts = (opts?.colors?.length ? {exclude: [BlendMode.colorBurn, BlendMode.difference]} : {});
 
 	let nCircles = (opts?.circles || 4);
 	const circles: Circle[] = [];
-	const blends: BlendMode[] = [randBlend()];
+	const blends: BlendMode[] = [randBlend(blendOpts)];
 	while (--nCircles) {
 		circles.push(randCircle(virtualCanvasSize));
-		blends.push(randBlend());
+		blends.push(randBlend(blendOpts));
 	}
 
 	return `
@@ -65,9 +66,9 @@ function generateMarble(opts?: MarbleOptions): string {
 			</defs>
 
 			<g mask="url(#mask)">
-				<circle r="${RADIUS + 5}" cx="${center}" cy="${center}" fill="${randColor({opacity: 1})}" filter="url(#blend_${blends[0]})"/>
+				<circle r="${RADIUS + 5}" cx="${center}" cy="${center}" fill="${(opts?.colors?.length ? opts.colors[0] : randColor({opacity: 1}))}" filter="url(#blend_${blends[0]})"/>
 				${circles.map((circle, i) => `
-					<circle r="${circle.r}" cx="${circle.cx}" cy="${circle.cy}" fill="${randColor()}" filter="url(#blend_${blends[i + 1]})"/>`).join('')
+					<circle r="${circle.r}" cx="${circle.cx}" cy="${circle.cy}" fill="${((opts?.colors?.length && opts.colors.length > (i + 1)) ? opts.colors[i + 1] : randColor())}" filter="url(#blend_${blends[i + 1]})"/>`).join('')
 				}
 			</g>
 		</svg>
@@ -95,8 +96,11 @@ function randColorComponent(opts?: {opacity: number}) {
 	return (Math.round(255 * (opts?.opacity ?? Math.random()))).toString(16).padStart(2, '0');
 }
 
-function randBlend() {
-	const modes = Object.values(BlendMode);
+function randBlend(opts?: {exclude?: BlendMode[]}) {
+	let modes = Object.values(BlendMode);
+	if (opts?.exclude)
+		modes = modes.filter(mode => !opts.exclude?.includes(mode));
+
 	return modes[(Math.round(Math.random() * (modes.length - 1)))];
 }
 
