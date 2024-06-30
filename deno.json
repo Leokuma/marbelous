@@ -1,7 +1,7 @@
 {
 	"tasks": {
-		"build": "packup build index.html || deno task packup-install",
-		"serve": "packup serve index.html || deno task packup-install",
+		"build": "packup build index.html || deno task packup-install && packup build index.html",
+		"serve": "packup serve index.html || deno task packup-install && packup serve index.html",
 		"packup-install": "deno install -qAf https://deno.land/x/packup@v0.2.6/cli.ts"
 	},
 	"lock": false
